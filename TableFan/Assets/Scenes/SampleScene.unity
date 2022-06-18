@@ -156,6 +156,8 @@ MonoBehaviour:
   btnOff: {fileID: 1808193713}
   speed: -600
   blade: {fileID: 7313526149863555169}
+  audiosource: {fileID: 1808193716}
+  push: {fileID: 8300000, guid: 226719c9efb464854b47e93e5be5b17b, type: 3}
 --- !u!65 &40417503
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -310,6 +312,8 @@ MonoBehaviour:
   btnOff: {fileID: 1808193713}
   speed: -1200
   blade: {fileID: 7313526149863555169}
+  audiosource: {fileID: 1808193716}
+  push: {fileID: 8300000, guid: 226719c9efb464854b47e93e5be5b17b, type: 3}
 --- !u!65 &882972949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -349,6 +353,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -415,11 +420,65 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: -5.9, z: -138.2}
+  m_LocalPosition: {x: 7.4, y: -1.6, z: -138.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5444b1d99e193498ebf9749186615706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1237460945}
+  xSpeed: 1000
+  ySpeed: 1000
+  mSpeed: 20
+  yMinLimit: -50
+  yMaxLimit: 50
+  distance: 100
+  minDistance: 2
+  maxDistance: 200
+  needDamping: 1
+  x: 0
+  y: 0
+--- !u!1 &1237460944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1237460945}
+  m_Layer: 0
+  m_Name: ViewPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1237460945
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237460944}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 663727659693306359}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1452614232
 GameObject:
@@ -454,6 +513,8 @@ MonoBehaviour:
   btnOff: {fileID: 1808193713}
   speed: -400
   blade: {fileID: 7313526149863555169}
+  audiosource: {fileID: 1808193716}
+  push: {fileID: 8300000, guid: 226719c9efb464854b47e93e5be5b17b, type: 3}
 --- !u!65 &1452614234
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -493,6 +554,7 @@ GameObject:
   - component: {fileID: 1808193715}
   - component: {fileID: 1808193714}
   - component: {fileID: 1808193713}
+  - component: {fileID: 1808193716}
   m_Layer: 0
   m_Name: btn_off
   m_TagString: Untagged
@@ -512,10 +574,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f4e25bc77a647d7addf5b398116655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fanbtns: []
+  fanbtns:
+  - {fileID: 1452614233}
+  - {fileID: 40417502}
+  - {fileID: 882972948}
   speed: 0
   blade: {fileID: 7313526149863555169}
   fanButton: {fileID: 1452614233}
+  audiosource: {fileID: 1808193716}
+  pushDown: {fileID: 8300000, guid: ba2ff6f3b3a314f2fbf5122b9dda0a1f, type: 3}
+  bounceUp: {fileID: 8300000, guid: 637e2010afd8e4d2a9cd91aed6efaa13, type: 3}
 --- !u!65 &1808193714
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -544,6 +612,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1808193716
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808193712}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &179537495668468557
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +781,7 @@ Transform:
   - {fileID: 6951424008943455234}
   - {fileID: 1362911703849410711}
   - {fileID: 6710409177239139008}
+  - {fileID: 1237460945}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

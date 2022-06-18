@@ -9,14 +9,18 @@ public class FanButton : MonoBehaviour
     public BtnOff btnOff;
     public float speed;
     public Blade blade;
+    public AudioSource audiosource;
+    public AudioClip push;
+    // public AudioClip bounce;
     // [SerializeField] private string authericationEndpoint = "http://localhost:8000/fan";
 
 
     private void OnMouseDown()
     {
 
-        btnOff.PopAll();
+        btnOff.BounceAll();
         transform.DOLocalMoveY(-0.3f, 0.1f);
+        audiosource.PlayOneShot(push);
         blade.SetSpeed(speed);
         StartCoroutine(SendReq("http://192.168.1.14:8000/fan/", "On"));
 
@@ -37,34 +41,9 @@ public class FanButton : MonoBehaviour
         {
             Debug.Log(request.downloadHandler.text);
         }
-        // var handler = request.SendWebRequest();
-        // float startTime = 0.0f;
-        // while (!handler.isDone)
-        // {
-        //     startTime += Time.deltaTime;
-        //     if (startTime > 10.0f)
-        //     {
-        //         break;
-        //     }
-        //     yield return null;
-        // }
-        // if (request.result == UnityWebRequest.Result.Success)
-        // {
-        //     Debug.Log(request.downloadHandler.text);
-
-        // }
-        // else
-        // {
-        //     Debug.Log("Unable to connect to the server...");
-
-        // }
-
-
-        // yield return null;
-
     }
 
-    public void PopUp()
+    public void Bounce()
     {
         transform.DOLocalMoveY(0f, 0.1f);
     }

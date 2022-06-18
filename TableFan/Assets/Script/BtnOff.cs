@@ -9,37 +9,35 @@ public class BtnOff : MonoBehaviour
     public float speed;
     public Blade blade;
     public FanButton fanButton = new FanButton();
+    public AudioSource audiosource;
+    public AudioClip pushDown;
+    public AudioClip bounceUp;
 
-    public void PopAll()
+    public void BounceAll()
     {
         foreach (var item in fanbtns)
         {
-            item.PopUp();
+            item.Bounce();
         }
     }
     private void OnMouseDown()
     {
 
         transform.DOLocalMoveY(-0.3f, 0.1f);
-        PopAll();
+        audiosource.PlayOneShot(pushDown);
+        BounceAll();
         blade.SetSpeed(speed);
-
         StartCoroutine(fanButton.SendReq("http://192.168.1.14:8000/fan/", "Off"));
-
-
-
     }
 
     private void OnMouseUp()
     {
-        PopUp();
-
-
-
+        Bounce();
     }
 
-    public void PopUp()
+    public void Bounce()
     {
         transform.DOLocalMoveY(0f, 0.1f);
+        audiosource.PlayOneShot(bounceUp);
     }
 }
