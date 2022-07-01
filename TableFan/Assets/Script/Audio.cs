@@ -24,7 +24,7 @@ namespace AudioName
         public string type;
 
         [JsonProperty("length-ms")] public int LengthMs;
-        public string colour;
+
     }
 
     [Serializable]

@@ -565,9 +565,9 @@ public class Panel : MonoBehaviour
         int.TryParse(rate4.text, out int r4); smellEffect.smell_effects[3].description.rate.frequency = r4;
 
         smellEffect.smell_effects[0].description.pattern[0].fragrance = content1.text;
-        smellEffect.smell_effects[2].description.pattern[0].fragrance = content2.text;
-        smellEffect.smell_effects[3].description.pattern[0].fragrance = content3.text;
-        smellEffect.smell_effects[4].description.pattern[0].fragrance = content4.text;
+        smellEffect.smell_effects[1].description.pattern[0].fragrance = content2.text;
+        smellEffect.smell_effects[2].description.pattern[0].fragrance = content3.text;
+        smellEffect.smell_effects[3].description.pattern[0].fragrance = content4.text;
         DumpToConsole(smellEffect);
     }
     public void SubmitTasteEffect()
@@ -594,9 +594,9 @@ public class Panel : MonoBehaviour
         int.TryParse(rate4.text, out int r4); tasteEffect.taste_effects[3].description.rate.frequency = r4;
 
         tasteEffect.taste_effects[0].description.pattern[0].flavour = content1.text;
-        tasteEffect.taste_effects[2].description.pattern[0].flavour = content2.text;
-        tasteEffect.taste_effects[3].description.pattern[0].flavour = content3.text;
-        tasteEffect.taste_effects[4].description.pattern[0].flavour = content4.text;
+        tasteEffect.taste_effects[1].description.pattern[0].flavour = content2.text;
+        tasteEffect.taste_effects[2].description.pattern[0].flavour = content3.text;
+        tasteEffect.taste_effects[3].description.pattern[0].flavour = content4.text;
         DumpToConsole(tasteEffect);
     }
 
