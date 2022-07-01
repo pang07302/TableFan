@@ -1,0 +1,65 @@
+{
+    "smell_effects": [
+      {
+        "start": 1000,
+        "description": {
+          "pattern":[
+            {
+              "type": "custom",
+              "length-ms": 100,
+              "fragrance": "violet"
+            }
+          ],
+          "rate": {
+            "frequency": 0
+          }
+        }
+      },
+      {
+        "start": 4000,
+        "description": {
+          "pattern":[
+            {
+              "type": "custom",
+              "length-ms": 200,
+              "fragrance": "lavender"
+            }
+          ],
+          "rate": {
+            "frequency": 0
+          }
+        }
+      },
+      {
+        "start": 6000,
+        "description": {
+          "pattern":[
+            {
+              "type": "custom",
+              "length-ms": 300,
+              "fragrance": "ocean"
+            }
+          ],
+          "rate": {
+            "frequency": 0
+          }
+        }
+      },
+      {
+        "start": 8000,
+        "description": {
+          "pattern":[
+            {
+              "type": "custom",
+              "length-ms": 400,
+              "fragrance": "rose"
+            }
+          ],
+          "rate": {
+            "frequency": 0
+          }
+        }
+      }
+    ]
+}
+    

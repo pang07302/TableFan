@@ -27,7 +27,8 @@ public class BtnOff : MonoBehaviour
         audiosource.PlayOneShot(pushDown);
         BounceAll();
         blade.SetSpeed(speed);
-        StartCoroutine(fanButton.SendReq("http://192.168.1.14:8000/fan/", "Off"));
+        // StartCoroutine(fanButton.SendReq("http://149.157.109.61:8000/fan/", "Off"));
+        // StartCoroutine(fanButton.SendReq("http://192.168.1.14:8000/fan/", "Off"));
     }
 
     private void OnMouseUp()

@@ -1,0 +1,24 @@
+{
+    "effect":[
+        {
+            "id": 1,
+            "category": "sight"
+        },
+        {
+            "id": 2,
+            "category": "audio"
+        },
+        {
+            "id": 3,
+            "category": "haptic"
+        },
+        {
+            "id": 4,
+            "category": "smell"
+        },
+        {
+            "id": 5,
+            "category": "taste"
+        }   
+    ]
+}
