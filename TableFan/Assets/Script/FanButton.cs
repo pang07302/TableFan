@@ -41,16 +41,13 @@ public class FanButton : MonoBehaviour
 
         string fan = JsonUtility.ToJson(device.GenerateDevice(1, "On"));
 
-        // StartCoroutine(SendReq("http://localhost:8000/fans", ToByteArray(fan)));
+        StartCoroutine(SendReq("http://localhost:8000/fans", ToByteArray(fan)));
         string id = "fan01"; // device id
         string haptic_effects = System.IO.File.ReadAllText("Assets/Json/Haptic_effects.json");
 
         // StartCoroutine(SendReq("http://localhost:8000/haptic/" + id, ToByteArray(haptic_effects)));
 
         panel.CreateDefaultEffect("Haptic", id, speed, null);
-
-
-
 
         // StartCoroutine(SendReq("http://192.168.1.14:8000/fans", fan.generateDevice(1)));
 

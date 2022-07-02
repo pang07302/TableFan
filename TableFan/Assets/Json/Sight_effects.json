@@ -6,7 +6,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 100,
+            "LengthMs": 100,
             "colour": "red"
           }
         ],
@@ -21,7 +21,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 200,
+            "LengthMs": 200,
             "colour": "orange"
           }
         ],
@@ -36,7 +36,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 300,
+            "LengthMs": 300,
             "colour": "white"
           }
         ],
@@ -51,7 +51,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 400,
+            "LengthMs": 400,
             "colour": "yellow"
           }
         ],

@@ -45,7 +45,8 @@ public class Panel : MonoBehaviour
     static bool view = false;
     static bool flag = false;
     static string deviceId;
-    static string t;
+    static string operation;
+    static string effectId;
 
 
 
@@ -61,7 +62,7 @@ public class Panel : MonoBehaviour
     {
         if (view)
         {
-            title.text = t = "Manage";
+            title.text = operation = "Manage";
             categoryIndex = category.options.FindIndex((i) => { return i.text.Equals(categoryName); });
             category.value = categoryIndex;
             category.options[categoryIndex].text = categoryName;
@@ -130,11 +131,12 @@ public class Panel : MonoBehaviour
             for (int i = 0; i < idArray.Length; i++)
             {
                 GUIStyle customButton = new GUIStyle("button");
-                customButton.fontSize = 60;
+                customButton.fontSize = 12;
                 if (idArray[i].Length > 2)
-                    if (GUI.Button(new Rect(500, 120 * (i + 1), 800, 100), new GUIContent("effect" + (i + 1)), customButton))
+                    if (GUI.Button(new Rect(100, 35 * (i + 1), 300, 30), new GUIContent("effect" + (i + 1)), customButton))
                     {
                         Debug.Log(idArray[i]);
+                        effectId = idArray[i].Substring(1, idArray[i].Length - 2);
                         StartCoroutine(GetEffect("http://localhost:8000/getDeviceEffect/", idArray[i].Substring(1, idArray[i].Length - 2)));
                     }
             }
@@ -196,7 +198,9 @@ public class Panel : MonoBehaviour
         }
 
         Debug.Log(submitedEffect);
-        StartCoroutine(SubmitEffect("http://localhost:8000/createEffect/" + deviceId, ToByteArray(submitedEffect)));
+        Debug.Log(operation);
+        string id = operation=="Create"?deviceId:effectId;
+        StartCoroutine(SubmitEffect($"http://localhost:8000/{operation}Effect/" + id, ToByteArray(submitedEffect)));
     }
 
     public byte[] ToByteArray(string json)
@@ -286,7 +290,7 @@ public class Panel : MonoBehaviour
                 break;
         }
         panel.SetActive(true);
-        title.text = t = "Create";
+        title.text = operation = "Create";
         DumpToConsole(hapticEffect);
     }
 

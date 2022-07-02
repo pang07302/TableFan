@@ -7,7 +7,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 100
+            "LengthMs": 100
           }
         ],
         "rate": {
@@ -21,7 +21,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 200
+            "LengthMs": 200
           }
         ],
         "rate": {
@@ -35,7 +35,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 300
+            "LengthMs": 300
           }
         ],
         "rate": {
@@ -49,7 +49,7 @@
         "pattern":[
           {
             "type": "custom",
-            "length-ms": 400
+            "LengthMs": 400
           }
         ],
         "rate": {
