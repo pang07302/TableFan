@@ -7,7 +7,7 @@ public class PanelOpen : MonoBehaviour
     public GameObject Panel;
     public void OpenPanel()
     {
-        if (Panel!=null)
+        if (Panel != null)
         {
             bool isActive = Panel.activeSelf;
             Panel.SetActive(!isActive);

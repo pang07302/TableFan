@@ -12,8 +12,8 @@ public class FanButton : MonoBehaviour
     public Blade blade;
     public AudioSource audiosource;
     public AudioClip push;
-    public Devices device = new Devices();
     public Panel panel;
+    public CreateDevice service = new CreateDevice();
 
     // public AudioClip bounce;
     // [SerializeField] private string authericationEndpoint = "http://localhost:8000/fan";
@@ -24,9 +24,9 @@ public class FanButton : MonoBehaviour
     public void GenerateDefaultTable()
     {
         string deviceTable = System.IO.File.ReadAllText("Assets/Json/DeviceTable.json");
-        StartCoroutine(SendReq("http://localhost:8000/createDeviceTable", ToByteArray(deviceTable)));
+        StartCoroutine(service.SendReq("http://localhost:8000/createDeviceTable", service.ToByteArray(deviceTable)));
         string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
-        StartCoroutine(SendReq("http://localhost:8000/createEffectTable", ToByteArray(effectTable)));
+        StartCoroutine(service.SendReq("http://localhost:8000/createEffectTable", service.ToByteArray(effectTable)));
         // string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
     }
 
@@ -39,9 +39,9 @@ public class FanButton : MonoBehaviour
         blade.SetSpeed(speed);
         Debug.Log(speed);
 
-        string fan = JsonUtility.ToJson(device.GenerateDevice(1, "On"));
+        string fan = JsonUtility.ToJson(new Devices(1, "On"));
 
-        StartCoroutine(SendReq("http://localhost:8000/fans", ToByteArray(fan)));
+        StartCoroutine(service.SendReq("http://localhost:8000/fans", service.ToByteArray(fan)));
         string id = "fan01"; // device id
         string haptic_effects = System.IO.File.ReadAllText("Assets/Json/Haptic_effects.json");
 
@@ -56,30 +56,7 @@ public class FanButton : MonoBehaviour
 
     }
 
-    public byte[] ToByteArray(string json)
-    {
-        return new System.Text.UTF8Encoding().GetBytes(json);
-    }
 
-
-    public IEnumerator SendReq(string address, byte[] req)
-    {
-        UnityWebRequest request = UnityWebRequest.Get(address);
-        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(req);
-        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-        request.SetRequestHeader("content-Type", "application/json");
-        request.SetRequestHeader("Accept", "application/json");
-        request.SetRequestHeader("api-version", "0.1");
-        yield return request.SendWebRequest();
-        if (request.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError(request.error);
-        }
-        else
-        {
-            Debug.Log(request.downloadHandler.text);
-        }
-    }
 
 
 

@@ -7,15 +7,13 @@ public class Cam360View : MonoBehaviour
     public Transform target;
     public float xSpeed = 1000;
     public float ySpeed = 1000;
-    public float mSpeed = 20;
+    public float wheelSpeed = 20;
     public float yMinLimit = -50;
     public float yMaxLimit = 50;
     public float distance = 100;
     public float minDistance = 2;
     public float maxDistance = 200;
-
-    public bool needDamping = true;
-    float damping = 5.0f;
+    float speed = 5.0f;
     public float x = 0.0f;
     public float y = 0.0f;
 
@@ -30,27 +28,22 @@ public class Cam360View : MonoBehaviour
     {
         if (target)
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1)) //right click
             {
                 x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
                 y -= Input.GetAxis("Mouse Y") * xSpeed * 0.02f;
                 y = ClampAngle(y, yMinLimit, yMaxLimit);
             }
-            distance -= Input.GetAxis("Mouse ScrollWheel") * mSpeed;
+            distance -= Input.GetAxis("Mouse ScrollWheel") * wheelSpeed;
             distance = Mathf.Clamp(distance, minDistance, maxDistance);
             Quaternion rotation = Quaternion.Euler(y, x, 0.0f);
             Vector3 disVector = new Vector3(0.0f, 0.0f, -distance);
             Vector3 position = rotation * disVector + target.position;
-            if (needDamping)
-            {
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * damping);
-                transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * damping);
-            }
-            else
-            {
-                transform.rotation = rotation;
-                transform.position = position;
-            }
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * speed);
+            transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
+
+
         }
 
     }
