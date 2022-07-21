@@ -15,37 +15,26 @@ public class Devices
                 category = "haptic";
                 status = action;
                 break;
-
             case 2:
-
-
                 name = "VR-Headset";
                 category = "sight";
                 status = action;
                 break;
-
             case 3:
-
                 name = "glove";
                 category = "haptic";
                 status = action;
                 break;
-
             case 4:
-
-
                 name = "headphone";
                 category = "audio";
                 status = action;
                 break;
-
             default:
-
                 name = "e-";
                 category = "taste";
                 status = action;
                 break;
-
 
         }
     }

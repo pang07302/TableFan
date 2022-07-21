@@ -48,16 +48,6 @@ public class Panel : MonoBehaviour
     static string operation;
     static string effectId;
 
-
-
-
-    void Start()
-    {
-        // string json = System.IO.File.ReadAllText("Assets/Json/Sight_effects.json");
-        // sightEffect = JsonUtility.FromJson<SightName.Sight>(json);
-        // DumpToConsole(sightEffect);
-
-    }
     void Update()
     {
         if (view)
@@ -66,7 +56,6 @@ public class Panel : MonoBehaviour
             categoryIndex = category.options.FindIndex((i) => { return i.text.Equals(categoryName); });
             category.value = categoryIndex;
             category.options[categoryIndex].text = categoryName;
-            Debug.Log(categoryName);
             switch (category.value)
             {
                 case 0:
@@ -76,6 +65,7 @@ public class Panel : MonoBehaviour
                     break;
                 case 1:
                     contentPanel.SetActive(false);
+                    RetrieveAudioEffect();
                     break;
                 case 2:
                     contentPanel.SetActive(false);
@@ -85,10 +75,12 @@ public class Panel : MonoBehaviour
                 case 3:
                     contentPanel.SetActive(true);
                     contentLabel.text = "Fragrance:";
+                    RetrieveSmellEffect();
                     break;
                 case 4:
                     contentPanel.SetActive(true);
                     contentLabel.text = "Flavour:";
+                    RetrieveTasteEffect();
                     break;
                 default: contentPanel.SetActive(false); contentLabel.text = ""; break;
             }
@@ -114,15 +106,6 @@ public class Panel : MonoBehaviour
 
     }
 
-    void ContentPanel()
-    {
-
-    }
-
-    void OnMouseDown()
-    {
-
-    }
     void OnGUI()
     {
 
@@ -135,7 +118,6 @@ public class Panel : MonoBehaviour
                 if (idArray[i].Length > 2)
                     if (GUI.Button(new Rect(100, 35 * (i + 1), 300, 30), new GUIContent("effect" + (i + 1)), customButton))
                     {
-                        Debug.Log(idArray[i]);
                         effectId = idArray[i].Substring(1, idArray[i].Length - 2);
                         StartCoroutine(GetEffect("http://localhost:8000/getDeviceEffect/", idArray[i].Substring(1, idArray[i].Length - 2)));
                     }
@@ -146,18 +128,13 @@ public class Panel : MonoBehaviour
     public void submit()
     {
         string submitedEffect = "";
-        Debug.Log(category.value);
         switch (category.value)
         {
             case 0:
-                Debug.Log(sightEffect);
-
                 if (sightEffect == null)
                 {
-
                     string defaultJson = System.IO.File.ReadAllText("Assets/Json/Sight_effects.json");
                     sightEffect = JsonUtility.FromJson<SightName.Sight>(defaultJson);
-
                 }
                 SubmitSightEffect();
                 DumpToConsole(sightEffect);
@@ -197,9 +174,7 @@ public class Panel : MonoBehaviour
                 break;
         }
 
-        Debug.Log(submitedEffect);
-        Debug.Log(operation);
-        string id = operation=="Create"?deviceId:effectId;
+        string id = operation == "Create" ? deviceId : effectId;
         StartCoroutine(SubmitEffect($"http://localhost:8000/{operation}Effect/" + id, ToByteArray(submitedEffect)));
     }
 
@@ -269,7 +244,6 @@ public class Panel : MonoBehaviour
         categoryIndex = category.options.FindIndex((i) => { return i.text.Equals(categoryName); });
         category.value = categoryIndex;
         category.options[categoryIndex].text = categoryName;
-        Debug.Log(id);
 
         switch (categoryName)
         {
@@ -522,7 +496,6 @@ public class Panel : MonoBehaviour
     }
     public void SubmitHapticEffect()
     {
-        Debug.Log(hapticEffect.haptic_effects[0].start);
         // parse to integer - start
         int.TryParse(start1.text, out int s1); hapticEffect.haptic_effects[0].start = s1;
         int.TryParse(start2.text, out int s2); hapticEffect.haptic_effects[1].start = s2;

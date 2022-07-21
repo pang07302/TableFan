@@ -11,7 +11,7 @@ public class CustomisedDevice : MonoBehaviour
 
 
     public CreateDevice service = new CreateDevice();
-    static string name;
+    static string name = "";
     static string category;
 
     // void Update()
