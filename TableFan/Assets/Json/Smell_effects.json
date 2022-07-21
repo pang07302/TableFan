@@ -1,4 +1,6 @@
 {
+  "deviceId":"",
+  "control":"",
     "smell_effects": [
       {
         "start": 1000,

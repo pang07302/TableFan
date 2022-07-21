@@ -33,6 +33,7 @@ public class Panel : MonoBehaviour
     [SerializeField] private TMP_InputField content2;
     [SerializeField] private TMP_InputField content3;
     [SerializeField] private TMP_InputField content4;
+    [SerializeField] private TMP_InputField control;
     static int categoryIndex;
     static string categoryName;
     static string retrieveId;
@@ -106,6 +107,8 @@ public class Panel : MonoBehaviour
 
     }
 
+
+
     void OnGUI()
     {
 
@@ -127,6 +130,8 @@ public class Panel : MonoBehaviour
 
     public void submit()
     {
+
+
         string submitedEffect = "";
         switch (category.value)
         {
@@ -152,6 +157,7 @@ public class Panel : MonoBehaviour
                 {
                     string defaultJson = System.IO.File.ReadAllText("Assets/Json/Haptic_effects.json");
                     hapticEffect = JsonUtility.FromJson<Haptic>(defaultJson);
+
                 }
                 SubmitHapticEffect();
                 submitedEffect = JsonUtility.ToJson(hapticEffect);
@@ -208,14 +214,16 @@ public class Panel : MonoBehaviour
         audioEffect.audio_effects[3].description.rate.frequency = (int)frequency;
         RetrieveAudioEffect();
     }
-    void CreateDefaultHaptic(float frequency)
+    void CreateDefaultHaptic(string controlName, float frequency)
     {
         string defaultJson = System.IO.File.ReadAllText("Assets/Json/Haptic_effects.json");
         hapticEffect = JsonUtility.FromJson<Haptic>(defaultJson);
+        DumpToConsole(hapticEffect);
         hapticEffect.haptic_effects[0].description.rate.frequency = (int)frequency;
         hapticEffect.haptic_effects[1].description.rate.frequency = (int)frequency;
         hapticEffect.haptic_effects[2].description.rate.frequency = (int)frequency;
         hapticEffect.haptic_effects[3].description.rate.frequency = (int)frequency;
+        hapticEffect.control = controlName;
         RetrieveHapticEffect();
     }
     void CreateDefaultSmell(string fragrance)
@@ -237,7 +245,7 @@ public class Panel : MonoBehaviour
         tasteEffect.taste_effects[2].description.pattern[0].flavour = flavour;
         tasteEffect.taste_effects[3].description.pattern[0].flavour = flavour;
     }
-    public void CreateDefaultEffect(string type, string id, float frequency, string content)
+    public void CreateDefaultEffect(string type, string id, string controlName, float frequency, string content)
     {
         deviceId = id;
         categoryName = type;
@@ -254,7 +262,7 @@ public class Panel : MonoBehaviour
                 CreateDefaultAudio(frequency);
                 break;
             case "Haptic":
-                CreateDefaultHaptic(frequency);
+                CreateDefaultHaptic(controlName, frequency);
                 break;
             case "Smell":
                 if (content != null) CreateDefaultSmell(content);
@@ -392,6 +400,7 @@ public class Panel : MonoBehaviour
         rate2.text = "" + hapticEffect.haptic_effects[1].description.rate.frequency;
         rate3.text = "" + hapticEffect.haptic_effects[2].description.rate.frequency;
         rate4.text = "" + hapticEffect.haptic_effects[3].description.rate.frequency;
+        control.text = hapticEffect.control;
     }
     void RetrieveSmellEffect()
     {
@@ -516,6 +525,9 @@ public class Panel : MonoBehaviour
         int.TryParse(rate2.text, out int r2); hapticEffect.haptic_effects[1].description.rate.frequency = r2;
         int.TryParse(rate3.text, out int r3); hapticEffect.haptic_effects[2].description.rate.frequency = r3;
         int.TryParse(rate4.text, out int r4); hapticEffect.haptic_effects[3].description.rate.frequency = r4;
+        // hapticEffect.control = control.text;
+        Debug.Log(control.text);
+        hapticEffect.control = control.text == null ? null : control.text;
         DumpToConsole(hapticEffect);
     }
     public void SubmitSmellEffect()

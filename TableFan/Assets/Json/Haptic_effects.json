@@ -1,5 +1,6 @@
 {
   "deviceId":"",
+  "control":"",
   "haptic_effects": [
     {
       "start": 1000,

@@ -1,4 +1,6 @@
 {
+  "deviceId":"",
+  "control":"",
   "sight_effects": [
     {
       "start": 1000,

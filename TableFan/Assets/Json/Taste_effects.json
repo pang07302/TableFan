@@ -1,4 +1,6 @@
 {
+  "deviceId":"",
+  "control":"",
     "taste_effects": [
       {
         "start": 1000,

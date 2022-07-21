@@ -38,5 +38,6 @@ namespace SightName
     {
         public List<SightEffect> sight_effects;
         public string deviceId;
+        public string control;
     }
 }

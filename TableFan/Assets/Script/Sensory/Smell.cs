@@ -38,5 +38,6 @@ namespace SmellName
     {
         public List<SmellEffect> smell_effects;
         public string deviceId;
+        public string control;
     }
 }

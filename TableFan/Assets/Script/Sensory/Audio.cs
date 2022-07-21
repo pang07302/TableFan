@@ -38,5 +38,6 @@ namespace AudioName
     {
         public List<AudioEffect> audio_effects;
         public string deviceId;
+        public string control;
     }
 }

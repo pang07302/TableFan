@@ -35,4 +35,5 @@ public class Haptic
 {
     public List<HapticEffect> haptic_effects;
     public string deviceId;
+    public string control;
 }

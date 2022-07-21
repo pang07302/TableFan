@@ -1,4 +1,6 @@
 {
+  "deviceId":"",
+  "control":"",
     "audio_effects": [
       {
         "start": 1000,

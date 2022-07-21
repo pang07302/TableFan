@@ -38,5 +38,6 @@ namespace TasteName
     {
         public List<TasteEffect> taste_effects;
         public string deviceId;
+        public string control;
     }
 }
