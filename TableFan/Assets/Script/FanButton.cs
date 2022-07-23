@@ -167,7 +167,6 @@ public class FanButton : MonoBehaviour
     long UnixNanoseconds()
     {
         System.DateTime unixStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
-
         return (System.DateTime.UtcNow - unixStart).Ticks * 100;
     }
 }
