@@ -3,33 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+
 
 public class CustomisedDevice : MonoBehaviour
 {
     [SerializeField] private TMP_InputField TMPname;
     [SerializeField] private TMP_Dropdown TMPcategory;
+    public List<GameObject> toggle = new List<GameObject>();
+
+    
     [SerializeField] private string endpoint = "http://192.168.1.14:8000";
 
+    public Service service;
 
-    public CreateDevice service = new CreateDevice();
-    private static string name = "";
-    static string category;
+    static string deviceName;
+    List<string> category= new List<string>();
 
-    // void Update()
-    // {
-    //     name = TMPname.text;
-    //     category = TMPcategory.options[TMPcategory.value].text;
-    // }
+    
 
     public void ManualAddDevice()
     {
-        name = TMPname.text;
-        category = TMPcategory.options[TMPcategory.value].text;
+        addToggle();
+        
+        deviceName = TMPname.text;
+        string categories = string.Join( ",", category);
+        Debug.Log(categories);
 
-        string customDevice = JsonUtility.ToJson(new Devices(name, category, null));
-        Debug.Log(customDevice);
-
+        string customDevice = JsonUtility.ToJson(new Devices(deviceName, categories, null));
+       
         StartCoroutine(service.SendReq($"{endpoint}/customDevice", service.ToByteArray(customDevice)));
+        category.RemoveAll(item => item != null);
 
+    }
+    public void addToggle()
+    {
+        foreach (var item in toggle)
+        {
+            if (item.GetComponent<Toggle>().isOn && !(category.Contains(item.GetComponentInChildren<Text>().text))){
+                category.Add(item.GetComponentInChildren<Text>().text);
+            }
+        }
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 using System.IO;
 public class CreateDevice
 {
-    static string ttime;
     public byte[] ToByteArray(string json)
     {
         return new System.Text.UTF8Encoding().GetBytes(json);
@@ -29,6 +28,8 @@ public class CreateDevice
             Debug.Log(request.downloadHandler.text);
         }
     }
+
+    
 
     
 

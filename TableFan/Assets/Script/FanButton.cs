@@ -17,23 +17,34 @@ public class FanButton : MonoBehaviour
     public AudioClip pushDown;
     public AudioClip bounceUp;
     public Panel panel;
-    public CreateDevice service = new CreateDevice();
-    static bool initial = true;
     static long clickTime;
     [SerializeField] private string endpoint = "http://192.168.1.14:8000";
+    public ToggleSwitch toggle;
+    public PanelClose panelClose;
+    public Service service;
+    bool flag = false;
 
+    void Update(){
+        if(toggle.isPlay){
+            panelClose.ClosePanel();
+        }
+        if (service.responseCode==200 && flag)
+        {
+            MeasureTime(service.responseText, service.beforeRequestTime, service.afterResponseTime);
+            service.setResponseCode(0);
+            flag = !flag;
+        }
+    }
+  
     private void OnMouseDown()
     {
+        
+      if(toggle.isPlay)
+      {
         clickTime = UnixNanoseconds();
-        if (initial)
-        {
-            GenerateDefaultTable();
-            initial = false;
-        }
         BounceAll();
         transform.DOLocalMoveY(-0.3f, 0.1f);
         blade.SetSpeed(speed);
-
         string fan = JsonUtility.ToJson(new Devices(1, this.name));
         if (this.name == "btn_off")
         {
@@ -45,21 +56,35 @@ public class FanButton : MonoBehaviour
             audiosource.PlayOneShot(push);
         }
 
-        StartCoroutine(SendReq($"{endpoint}/fans", service.ToByteArray(fan)));
+        StartCoroutine(service.SendReq($"{endpoint}/fans", service.ToByteArray(fan)));
+        flag =!flag;
+        // Debug.Log(service.responseCode);
+        // Debug.Log(service.responseText);
+        // if (service.responseCode == 200){
+        //     MeasureTime(service.responseText, service.beforeRequestTime, service.afterResponseTime);
+
+        // }
+        
+      }
+      else
+      {
         string id = "fan";
         string haptic_effects = System.IO.File.ReadAllText("Assets/Json/Haptic_effects.json");
         panel.CreateDefaultEffect("Haptic", id, this.name, speed, null);
-
+      }
     }
+
     private void OnMouseUp()
     {
         if (this.name == "btn_off") { Bounce(); }
     }
+
     public void Bounce()
     {
         transform.DOLocalMoveY(0f, 0.1f);
         if (speed == 0.0) { audiosource.PlayOneShot(bounceUp); }
     }
+
     public void BounceAll()
     {
         foreach (var item in fanbtns)
@@ -68,59 +93,11 @@ public class FanButton : MonoBehaviour
         }
     }
 
-
-
-    public IEnumerator SendReq(string address, byte[] req)
+    public void MeasureTime(string responseText, long beforeRequestTime, long afterResponseTime)
     {
-        UnityWebRequest request = UnityWebRequest.Get(address);
-        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(req);
-        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-        request.SetRequestHeader("content-Type", "application/json");
-        request.SetRequestHeader("Accept", "application/json");
-        request.SetRequestHeader("api-version", "0.1");
-
-        long beforeRequestTime = UnixNanoseconds();
-        yield return request.SendWebRequest();
-        long afterResponseTime = UnixNanoseconds();
-        Debug.Log("before: " + beforeRequestTime + "after: " + afterResponseTime);
-
-
-        if (request.responseCode == 200)
-        {
-            string serverProcessingTimeStr = request.downloadHandler.text.Split(',', ':')[3];
-            string afterRequestTimeStr = request.downloadHandler.text.Split(',', ':')[5];
-            string beforeResponseTimeStr = request.downloadHandler.text.Split(',', ':')[7];
-            MeasureTime(serverProcessingTimeStr, afterRequestTimeStr, beforeResponseTimeStr, beforeRequestTime, afterResponseTime);
-        }
-
-        if (request.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError(request.error);
-        }
-        else
-        {
-            Debug.Log(request.downloadHandler.text);
-        }
-    }
-
-
-
-    public void GenerateDefaultTable()
-    {
-        string deviceTable = System.IO.File.ReadAllText("Assets/Json/DeviceTable.json");
-        StartCoroutine(service.SendReq($"{endpoint}/createDeviceTable", service.ToByteArray(deviceTable)));
-        string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
-        StartCoroutine(service.SendReq($"{endpoint}/createEffectTable", service.ToByteArray(effectTable)));
-        // string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
-    }
-
-
-    public void MeasureTime(string serverProcessingTimeStr, string afterRequestTimeStr, string beforeResponseTimeStr, long beforeRequestTime, long afterResponseTime)
-    {
-        Debug.Log(clickTime + " , " + beforeRequestTime + " , " + afterResponseTime);
-        double.TryParse(serverProcessingTimeStr, out double serverProcessingTime);
-        long.TryParse(afterRequestTimeStr, out long afterRequestTime);
-        long.TryParse(beforeResponseTimeStr, out long beforeResponseTime);
+        double.TryParse(responseText.Split(',', ':')[3], out double serverProcessingTime);
+        long.TryParse(responseText.Split(',', ':')[5], out long afterRequestTime);
+        long.TryParse(responseText.Split(',', ':')[7], out long beforeResponseTime);
         double clickToSendTime = (double)(beforeRequestTime - clickTime);
         double requestTime = (double)(afterRequestTime - beforeRequestTime);
         double responseTime = (double)(afterResponseTime - beforeResponseTime);

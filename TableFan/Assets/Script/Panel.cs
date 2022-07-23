@@ -49,7 +49,7 @@ public class Panel : MonoBehaviour
     static string operation;
     static string effectId;
     [SerializeField] private string endpoint = "http://192.168.1.14:8000";
-
+    
     void Update()
     {
         if (view)
@@ -303,7 +303,6 @@ public class Panel : MonoBehaviour
 
         hapticEffect = JsonUtility.FromJson<Haptic>(json);
 
-        // DumpToConsole(hapticEffect);
         view = true;
         if (request.result != UnityWebRequest.Result.Success)
         {
