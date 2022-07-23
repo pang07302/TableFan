@@ -8,10 +8,11 @@ public class CustomisedDevice : MonoBehaviour
 {
     [SerializeField] private TMP_InputField TMPname;
     [SerializeField] private TMP_Dropdown TMPcategory;
+    [SerializeField] private string endpoint = "http://192.168.1.14:8000";
 
 
     public CreateDevice service = new CreateDevice();
-    static string name = "";
+    private static string name = "";
     static string category;
 
     // void Update()
@@ -28,7 +29,7 @@ public class CustomisedDevice : MonoBehaviour
         string customDevice = JsonUtility.ToJson(new Devices(name, category, null));
         Debug.Log(customDevice);
 
-        StartCoroutine(service.SendReq("http://localhost:8000/customDevice", service.ToByteArray(customDevice)));
+        StartCoroutine(service.SendReq($"{endpoint}/customDevice", service.ToByteArray(customDevice)));
 
     }
 }

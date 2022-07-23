@@ -20,53 +20,19 @@ public class FanButton : MonoBehaviour
     public CreateDevice service = new CreateDevice();
     static bool initial = true;
     static long clickTime;
-    static long beforeRequestTime;
-
-
-
-    // public AudioClip bounce;
-    // [SerializeField] private string authericationEndpoint = "http://localhost:8000/fan";
-    // void Start()
-    // {
-    //     GenerateDefaultTable();
-    // }
-    public void BounceAll()
-    {
-        foreach (var item in fanbtns)
-        {
-            item.Bounce();
-        }
-    }
-    // void Start()
-    // {
-    //     ReadTxt();
-    // }
-
-
-    public void GenerateDefaultTable()
-    {
-        string deviceTable = System.IO.File.ReadAllText("Assets/Json/DeviceTable.json");
-        StartCoroutine(service.SendReq("http://localhost:8000/createDeviceTable", service.ToByteArray(deviceTable)));
-        string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
-        StartCoroutine(service.SendReq("http://localhost:8000/createEffectTable", service.ToByteArray(effectTable)));
-        // string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
-    }
+    [SerializeField] private string endpoint = "http://192.168.1.14:8000";
 
     private void OnMouseDown()
     {
-        clickTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
+        clickTime = UnixNanoseconds();
         if (initial)
         {
             GenerateDefaultTable();
             initial = false;
         }
-
         BounceAll();
         transform.DOLocalMoveY(-0.3f, 0.1f);
-
         blade.SetSpeed(speed);
-
 
         string fan = JsonUtility.ToJson(new Devices(1, this.name));
         if (this.name == "btn_off")
@@ -79,18 +45,11 @@ public class FanButton : MonoBehaviour
             audiosource.PlayOneShot(push);
         }
 
-        StartCoroutine(SendReq("http://localhost:8000/fans", service.ToByteArray(fan)));
-        string id = "fan"; // device id
+        StartCoroutine(SendReq($"{endpoint}/fans", service.ToByteArray(fan)));
+        string id = "fan";
         string haptic_effects = System.IO.File.ReadAllText("Assets/Json/Haptic_effects.json");
-
-        // StartCoroutine(SendReq("http://localhost:8000/haptic/" + id, ToByteArray(haptic_effects)));
-
-
         panel.CreateDefaultEffect("Haptic", id, this.name, speed, null);
 
-        // StartCoroutine(SendReq("http://192.168.1.14:8000/fans", fan.generateDevice(1)));
-
-        // StartCoroutine(SendReq("http://192.168.1.14:8000/fan/", "On"));
     }
     private void OnMouseUp()
     {
@@ -100,6 +59,13 @@ public class FanButton : MonoBehaviour
     {
         transform.DOLocalMoveY(0f, 0.1f);
         if (speed == 0.0) { audiosource.PlayOneShot(bounceUp); }
+    }
+    public void BounceAll()
+    {
+        foreach (var item in fanbtns)
+        {
+            item.Bounce();
+        }
     }
 
 
@@ -113,14 +79,18 @@ public class FanButton : MonoBehaviour
         request.SetRequestHeader("Accept", "application/json");
         request.SetRequestHeader("api-version", "0.1");
 
-        beforeRequestTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        long beforeRequestTime = UnixNanoseconds();
         yield return request.SendWebRequest();
+        long afterResponseTime = UnixNanoseconds();
+        Debug.Log("before: " + beforeRequestTime + "after: " + afterResponseTime);
+
 
         if (request.responseCode == 200)
         {
-            string serverExecuteTimeStr = request.downloadHandler.text.Split(',', ':')[3];
+            string serverProcessingTimeStr = request.downloadHandler.text.Split(',', ':')[3];
             string afterRequestTimeStr = request.downloadHandler.text.Split(',', ':')[5];
-            MeasureTime(serverExecuteTimeStr, afterRequestTimeStr, beforeRequestTime);
+            string beforeResponseTimeStr = request.downloadHandler.text.Split(',', ':')[7];
+            MeasureTime(serverProcessingTimeStr, afterRequestTimeStr, beforeResponseTimeStr, beforeRequestTime, afterResponseTime);
         }
 
         if (request.result != UnityWebRequest.Result.Success)
@@ -133,22 +103,32 @@ public class FanButton : MonoBehaviour
         }
     }
 
-    public void MeasureTime(string serverExecuteTimeStr, string afterRequestTimeStr, long beforeRequestTime)
+
+
+    public void GenerateDefaultTable()
     {
-        Debug.Log(clickTime + " , " + beforeRequestTime);
-
-
-        double.TryParse(serverExecuteTimeStr, out double serverExecuteTime);
-        long.TryParse(afterRequestTimeStr, out long afterRequestTime);
-        double time = (double)(beforeRequestTime - clickTime);
-        double requestTime = (double)(afterRequestTime - beforeRequestTime);
-        Debug.Log(requestTime);
-
-        string delayTime = (time + serverExecuteTime + afterRequestTime - beforeRequestTime) / 1000 + "";
-        WriteTxt(time / 1000, serverExecuteTime / 1000, requestTime / 1000, delayTime);
+        string deviceTable = System.IO.File.ReadAllText("Assets/Json/DeviceTable.json");
+        StartCoroutine(service.SendReq($"{endpoint}/createDeviceTable", service.ToByteArray(deviceTable)));
+        string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
+        StartCoroutine(service.SendReq($"{endpoint}/createEffectTable", service.ToByteArray(effectTable)));
+        // string effectTable = System.IO.File.ReadAllText("Assets/Json/EffectTable.json");
     }
 
-    void WriteTxt(double time, double serverExecuteTime, double requestTime, string txtText)
+
+    public void MeasureTime(string serverProcessingTimeStr, string afterRequestTimeStr, string beforeResponseTimeStr, long beforeRequestTime, long afterResponseTime)
+    {
+        Debug.Log(clickTime + " , " + beforeRequestTime + " , " + afterResponseTime);
+        double.TryParse(serverProcessingTimeStr, out double serverProcessingTime);
+        long.TryParse(afterRequestTimeStr, out long afterRequestTime);
+        long.TryParse(beforeResponseTimeStr, out long beforeResponseTime);
+        double clickToSendTime = (double)(beforeRequestTime - clickTime);
+        double requestTime = (double)(afterRequestTime - beforeRequestTime);
+        double responseTime = (double)(afterResponseTime - beforeResponseTime);
+        string delayTime = (clickToSendTime + serverProcessingTime + afterRequestTime - beforeRequestTime) / 1e9 + "";
+        WriteTxt(clickToSendTime / 1e9, serverProcessingTime / 1e9, requestTime / 1e9, delayTime);
+    }
+
+    void WriteTxt(double clickToSendTime, double serverProcessingTime, double requestTime, string delayTime)
     {
         string path = "Assets/DelayTime.txt";
         StreamWriter sw;
@@ -161,7 +141,7 @@ public class FanButton : MonoBehaviour
         {
             sw = fi.AppendText();
         }
-        sw.WriteLine("Click: " + time + "| Request: " + requestTime + "| bash code: " + serverExecuteTime + "| The delay time: " + txtText);
+        sw.WriteLine("Click: " + clickToSendTime + "| Request: " + requestTime + "| bash code: " + serverProcessingTime + "| The delay time: " + delayTime);
         sw.Close();
         sw.Dispose();
 
@@ -183,5 +163,12 @@ public class FanButton : MonoBehaviour
             total += xx;
         }
         Debug.Log("total/Count: " + total / delayTimes.Count);
+    }
+    long UnixNanoseconds()
+    {
+        System.DateTime unixStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+        Debug.Log(unixStart);
+        Debug.Log(System.DateTime.UtcNow);
+        return (System.DateTime.UtcNow - unixStart).Ticks * 100;
     }
 }

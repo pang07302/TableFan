@@ -48,6 +48,7 @@ public class Panel : MonoBehaviour
     static string deviceId;
     static string operation;
     static string effectId;
+    [SerializeField] private string endpoint = "http://192.168.1.14:8000";
 
     void Update()
     {
@@ -122,7 +123,7 @@ public class Panel : MonoBehaviour
                     if (GUI.Button(new Rect(100, 35 * (i + 1), 300, 30), new GUIContent("effect" + (i + 1)), customButton))
                     {
                         effectId = idArray[i].Substring(1, idArray[i].Length - 2);
-                        StartCoroutine(GetEffect("http://localhost:8000/getDeviceEffect/", idArray[i].Substring(1, idArray[i].Length - 2)));
+                        StartCoroutine(GetEffect($"{endpoint}/getDeviceEffect/", idArray[i].Substring(1, idArray[i].Length - 2)));
                     }
             }
         }
@@ -181,7 +182,7 @@ public class Panel : MonoBehaviour
         }
 
         string id = operation == "Create" ? deviceId : effectId;
-        StartCoroutine(SubmitEffect($"http://localhost:8000/{operation}Effect/" + id, ToByteArray(submitedEffect)));
+        StartCoroutine(SubmitEffect($"{endpoint}/{operation}Effect/" + id, ToByteArray(submitedEffect)));
     }
 
     public byte[] ToByteArray(string json)

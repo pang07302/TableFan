@@ -18684,7 +18684,7 @@ GameObject:
   - component: {fileID: 179537495668468559}
   - component: {fileID: 179537495668468558}
   m_Layer: 0
-  m_Name: fan01(Haptic)
+  m_Name: fan(Haptic)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
