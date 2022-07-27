@@ -1,43 +1,38 @@
-
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
+
 namespace SightName
 {
     [Serializable]
     public class Description
     {
-        public List<Pattern> pattern;
-        public Rate rate;
-    }
-
-    [Serializable]
-    public class SightEffect
-    {
-        public int start;
-        public Description description;
+        public Properties properties;
+        public Pattern pattern;
     }
 
     [Serializable]
     public class Pattern
     {
         public string type;
-
-        [JsonProperty("length-ms")] public int LengthMs;
-        public string colour;
+        public int LengthMs;
     }
 
     [Serializable]
-    public class Rate
+    public class Properties
     {
-        public int frequency;
+        public string type;
+        public string id;
+        public string measure;
+        public string unit;
+        public int quantity;
     }
 
     [Serializable]
     public class Sight
     {
-        public List<SightEffect> sight_effects;
         public string deviceId;
         public string control;
+        public string category;
+        public Description description;
     }
 }

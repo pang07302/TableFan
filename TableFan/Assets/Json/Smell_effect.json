@@ -1,0 +1,23 @@
+{
+  "deviceId":"",
+  "control":"",
+  "category":"Smell",
+    "description": 
+      {
+        "properties":
+          {
+            "type":"Woody",
+            "measure":"odor",
+            "unit":"olf",
+            "quantity":4
+          },
+        "pattern":
+          {
+            "type": "custom",
+            "LengthMs": 1000
+          }
+      }
+}
+     
+
+    

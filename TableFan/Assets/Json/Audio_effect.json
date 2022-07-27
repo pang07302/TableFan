@@ -1,0 +1,21 @@
+{
+  "deviceId":"",
+  "control":"",
+  "category":"Audio",
+    "description": 
+      {
+        "properties":{
+            "type":"wave",
+            "measure":"volume",
+            "unit":"dB",
+            "quantity":20
+          },
+        "pattern":{
+            "type": "custom",
+            "LengthMs": 1000
+          }
+      }
+}
+     
+
+    

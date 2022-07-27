@@ -11,28 +11,22 @@ public class CustomisedDevice : MonoBehaviour
     [SerializeField] private TMP_InputField TMPname;
     [SerializeField] private TMP_Dropdown TMPcategory;
     public List<GameObject> toggle = new List<GameObject>();
-
-    
-    [SerializeField] private string endpoint = "http://192.168.1.14:8000";
-
     public Service service;
-
     static string deviceName;
-    List<string> category= new List<string>();
+    List<string> category = new List<string>();
 
-    
+
 
     public void ManualAddDevice()
     {
         addToggle();
-        
+
         deviceName = TMPname.text;
-        string categories = string.Join( ",", category);
-        Debug.Log(categories);
+        string categories = string.Join(",", category);
 
         string customDevice = JsonUtility.ToJson(new Devices(deviceName, categories, null));
-       
-        StartCoroutine(service.SendReq($"{endpoint}/customDevice", service.ToByteArray(customDevice)));
+
+        StartCoroutine(service.SendReq($"{service.endpoint}/customDevice", service.ToByteArray(customDevice)));
         category.RemoveAll(item => item != null);
 
     }
@@ -40,7 +34,8 @@ public class CustomisedDevice : MonoBehaviour
     {
         foreach (var item in toggle)
         {
-            if (item.GetComponent<Toggle>().isOn && !(category.Contains(item.GetComponentInChildren<Text>().text))){
+            if (item.GetComponent<Toggle>().isOn && !(category.Contains(item.GetComponentInChildren<Text>().text)))
+            {
                 category.Add(item.GetComponentInChildren<Text>().text);
             }
         }

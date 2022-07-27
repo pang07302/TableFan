@@ -1,4 +1,0 @@
-Click: 0.007691| Request: 0.051035439| bash code: 0.08354696| The delay time: 0.14227328
-Click: 0.000313| Request: 0.119359181| bash code: 0.080329736| The delay time: 0.200002048
-Click: 0.012373| Request: 0.256606789| bash code: 0.513592616| The delay time: 0.782572288
-Click: 0.00019| Request: 0.150628962| bash code: 0.078176192| The delay time: 0.228995072

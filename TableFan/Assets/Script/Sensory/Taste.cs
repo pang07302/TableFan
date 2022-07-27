@@ -1,43 +1,36 @@
-
 using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+
+
 namespace TasteName
 {
     [Serializable]
     public class Description
     {
-        public List<Pattern> pattern;
-        public Rate rate;
-    }
-
-    [Serializable]
-    public class TasteEffect
-    {
-        public int start;
-        public Description description;
+        public Properties properties;
+        public Pattern pattern;
     }
 
     [Serializable]
     public class Pattern
     {
         public string type;
-
-        [JsonProperty("length-ms")] public int LengthMs;
-        public string flavour;
+        public int LengthMs;
     }
-
     [Serializable]
-    public class Rate
+    public class Properties
     {
-        public int frequency;
+        public string type;
+        public string measure;
+        public string unit;
+        public int quantity;
     }
 
     [Serializable]
     public class Taste
     {
-        public List<TasteEffect> taste_effects;
         public string deviceId;
         public string control;
+        public string category;
+        public Description description;
     }
 }

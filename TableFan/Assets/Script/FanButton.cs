@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Networking;
 using System.IO;
-
+using Task = System.Threading.Tasks;
 using Debug = UnityEngine.Debug;
 
 public class FanButton : MonoBehaviour
@@ -17,31 +17,47 @@ public class FanButton : MonoBehaviour
     public AudioClip pushDown;
     public AudioClip bounceUp;
     public Panel panel;
-    static long clickTime;
-    [SerializeField] private string endpoint = "http://192.168.1.14:8000";
     public ToggleSwitch toggle;
     public PanelClose panelClose;
     public Service service;
-    bool flag = false;
+    bool getServiceResponseData = false;
+    static long clickTime;
+    private void OnMouseDown()
+    {
+        if (toggle.isPlay) // if toggle switch is play, click button will play the fan
+        {
+            clickTime = UnixNanoseconds(); // record the click time
+            Play();
+        }
+        else // if toggle switch is create, click button allow to create effect
+        {
+            string device = "fan";
+            // panel.CreateDefaultEffect("Haptic", device, this.name, speed, null);
+            panel.CreateDefaultEffect("Haptic", device, this.name);
+        }
+    }
 
-    void Update(){
-        if(toggle.isPlay){
+    private void OnMouseUp()
+    {
+        if (this.name == "btn_off") { Bounce(); }
+    }
+
+    void Update()
+    {
+        if (toggle.isPlay)
+        {
             panelClose.ClosePanel();
         }
-        if (service.responseCode==200 && flag)
+
+        if (service.responseCode == 200 && getServiceResponseData)
         {
             MeasureTime(service.responseText, service.beforeRequestTime, service.afterResponseTime);
             service.setResponseCode(0);
-            flag = !flag;
+            getServiceResponseData = !getServiceResponseData;
         }
     }
-  
-    private void OnMouseDown()
+    void Play()
     {
-        
-      if(toggle.isPlay)
-      {
-        clickTime = UnixNanoseconds();
         BounceAll();
         transform.DOLocalMoveY(-0.3f, 0.1f);
         blade.SetSpeed(speed);
@@ -55,28 +71,8 @@ public class FanButton : MonoBehaviour
         {
             audiosource.PlayOneShot(push);
         }
-
-        StartCoroutine(service.SendReq($"{endpoint}/fans", service.ToByteArray(fan)));
-        flag =!flag;
-        // Debug.Log(service.responseCode);
-        // Debug.Log(service.responseText);
-        // if (service.responseCode == 200){
-        //     MeasureTime(service.responseText, service.beforeRequestTime, service.afterResponseTime);
-
-        // }
-        
-      }
-      else
-      {
-        string id = "fan";
-        string haptic_effects = System.IO.File.ReadAllText("Assets/Json/Haptic_effects.json");
-        panel.CreateDefaultEffect("Haptic", id, this.name, speed, null);
-      }
-    }
-
-    private void OnMouseUp()
-    {
-        if (this.name == "btn_off") { Bounce(); }
+        service.SendDeploymentReq($"{service.endpoint}/fans", service.ToByteArray(fan));
+        getServiceResponseData = !getServiceResponseData;
     }
 
     public void Bounce()
@@ -100,12 +96,12 @@ public class FanButton : MonoBehaviour
         long.TryParse(responseText.Split(',', ':')[7], out long beforeResponseTime);
         double clickToSendTime = (double)(beforeRequestTime - clickTime);
         double requestTime = (double)(afterRequestTime - beforeRequestTime);
+        double delayTime = clickToSendTime + serverProcessingTime + requestTime;
         double responseTime = (double)(afterResponseTime - beforeResponseTime);
-        string delayTime = (clickToSendTime + serverProcessingTime + afterRequestTime - beforeRequestTime) / 1e9 + "";
-        WriteTxt(clickToSendTime / 1e9, serverProcessingTime / 1e9, requestTime / 1e9, delayTime);
+        WriteTxt(clickToSendTime / 1e9, serverProcessingTime / 1e9, requestTime / 1e9, delayTime / 1e9, responseTime / 1e9);
     }
 
-    void WriteTxt(double clickToSendTime, double serverProcessingTime, double requestTime, string delayTime)
+    void WriteTxt(double clickToSendTime, double serverProcessingTime, double requestTime, double delayTime, double responseTime)
     {
         string path = "Assets/DelayTime.txt";
         StreamWriter sw;
@@ -118,12 +114,10 @@ public class FanButton : MonoBehaviour
         {
             sw = fi.AppendText();
         }
-        sw.WriteLine("Click: " + clickToSendTime + "| Request: " + requestTime + "| bash code: " + serverProcessingTime + "| The delay time: " + delayTime);
+        sw.WriteLine("Click: " + clickToSendTime + "| Request: " + requestTime + "| bash code: " + serverProcessingTime + "| The delay time: " + delayTime + "| The response time: " + responseTime);
         sw.Close();
         sw.Dispose();
-
     }
-
     void ReadTxt()
     {
         string path = "Assets/DelayTime.txt";
@@ -146,4 +140,5 @@ public class FanButton : MonoBehaviour
         System.DateTime unixStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         return (System.DateTime.UtcNow - unixStart).Ticks * 100;
     }
+
 }

@@ -31,8 +31,9 @@ public class Cam360View : MonoBehaviour
             if (Input.GetMouseButton(1)) //right click
             {
                 x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
+                x = ClampAngle(x);
                 y -= Input.GetAxis("Mouse Y") * xSpeed * 0.02f;
-                y = ClampAngle(y, yMinLimit, yMaxLimit);
+                y = Mathf.Clamp(y, yMinLimit, yMaxLimit);
             }
             distance -= Input.GetAxis("Mouse ScrollWheel") * wheelSpeed;
             distance = Mathf.Clamp(distance, minDistance, maxDistance);
@@ -42,17 +43,15 @@ public class Cam360View : MonoBehaviour
 
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * speed);
             transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
-
-
         }
-
     }
-    static float ClampAngle(float angle, float min, float max)
+    static float ClampAngle(float angle)
     {
-        if (angle < -360)
+        if (angle < 0)
             angle += 360;
         if (angle > 360)
             angle -= 360;
-        return Mathf.Clamp(angle, min, max);
+
+        return angle;
     }
 }

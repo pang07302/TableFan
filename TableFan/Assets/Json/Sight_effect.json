@@ -1,0 +1,24 @@
+{
+  "deviceId":"",
+  "control":"",
+  "category":"Sight",
+    "description": 
+      {
+        "properties":
+          {
+            "type":"colour",
+            "id":"#800080",
+            "measure":"Luminance",
+            "unit":"lm",
+            "quantity":450
+          },
+        "pattern":
+          {
+            "type": "custom",
+            "LengthMs": 1000
+          }
+      }
+}
+     
+
+    
