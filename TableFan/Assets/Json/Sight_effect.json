@@ -6,16 +6,16 @@
       {
         "properties":
           {
-            "type":"colour",
-            "id":"#800080",
-            "measure":"Luminance",
-            "unit":"lm",
-            "quantity":450
+            "type":"",
+            "id":"",
+            "measure":"",
+            "unit":"",
+            "quantity":null
           },
         "pattern":
           {
             "type": "custom",
-            "LengthMs": 1000
+            "LengthMs": null
           }
       }
 }

@@ -14,21 +14,14 @@ public class CustomisedDevice : MonoBehaviour
     public Service service;
     static string deviceName;
     List<string> category = new List<string>();
-
-
-
     public void ManualAddDevice()
     {
         addToggle();
-
         deviceName = TMPname.text;
         string categories = string.Join(",", category);
-
         string customDevice = JsonUtility.ToJson(new Devices(deviceName, categories, null));
-
         StartCoroutine(service.SendReq($"{service.endpoint}/customDevice", service.ToByteArray(customDevice)));
         category.RemoveAll(item => item != null);
-
     }
     public void addToggle()
     {
@@ -41,3 +34,4 @@ public class CustomisedDevice : MonoBehaviour
         }
     }
 }
+

@@ -6,15 +6,15 @@
         {
           "properties":
             {
-              "type":"Sweet",
-              "measure":"Sweetness",
-              "unit":"sucrose",
-              "quantity":40
+              "type":"",
+              "measure":"",
+              "unit":"",
+              "quantity":null
             },
           "pattern":
             {
               "type": "custom",
-              "LengthMs": 1000
+              "LengthMs": null
             }
         }
   }

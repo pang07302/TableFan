@@ -25,6 +25,5 @@ public class Blade : MonoBehaviour
     void Update()
     {
         transform.Rotate(0, 0, z * Time.deltaTime);
-
     }
 }

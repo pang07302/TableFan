@@ -6,15 +6,15 @@
       {
         "properties":
           {
-            "type":"Woody",
-            "measure":"odor",
-            "unit":"olf",
-            "quantity":4
+            "type":"",
+            "measure":"",
+            "unit":"",
+            "quantity":null
           },
         "pattern":
           {
             "type": "custom",
-            "LengthMs": 1000
+            "LengthMs": null
           }
       }
 }

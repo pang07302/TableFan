@@ -1,0 +1,7 @@
+Click: 0.007987| Request: 0.026035717| bash code: 0.075440429| The delay time: 0.109463146| The response time: -0.022048383
+Click: 0.000126| Request: 0.026137371| bash code: 0.052102318| The delay time: 0.078365689| The response time: -0.003898545
+Click: 8.5E-05| Request: 0.026402436| bash code: 0.048955476| The delay time: 0.075442912| The response time: -0.000358768
+Click: 7.6E-05| Request: 0.026104462| bash code: 0.044286651| The delay time: 0.070467113| The response time: -0.01972302
+Click: 0.000175| Request: 0.027232807| bash code: 0.044538188| The delay time: 0.071945995| The response time: -0.005299245
+Click: 0.000102| Request: 0.027497054| bash code: 0.045679508| The delay time: 0.073278562| The response time: -0.012509742
+Click: 0.000103| Request: 0.026191083| bash code: 0.050261001| The delay time: 0.076555084| The response time: -0.012530793

@@ -5,14 +5,14 @@
     "description": 
       {
         "properties":{
-            "type":"wave",
-            "measure":"volume",
-            "unit":"dB",
-            "quantity":20
+            "type":"",
+            "measure":"",
+            "unit":"",
+            "quantity":null
           },
         "pattern":{
             "type": "custom",
-            "LengthMs": 1000
+            "LengthMs": null
           }
       }
 }

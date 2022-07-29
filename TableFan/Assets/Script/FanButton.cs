@@ -31,8 +31,7 @@ public class FanButton : MonoBehaviour
         }
         else // if toggle switch is create, click button allow to create effect
         {
-            string device = "fan";
-            // panel.CreateDefaultEffect("Haptic", device, this.name, speed, null);
+            string device = this.transform.parent.name;
             panel.CreateDefaultEffect("Haptic", device, this.name);
         }
     }

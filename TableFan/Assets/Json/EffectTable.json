@@ -2,23 +2,23 @@
     "effect":[
         {
             "id": 1,
-            "category": "sight"
+            "category": "Sight"
         },
         {
             "id": 2,
-            "category": "audio"
+            "category": "Audio"
         },
         {
             "id": 3,
-            "category": "haptic"
+            "category": "Haptic"
         },
         {
             "id": 4,
-            "category": "smell"
+            "category": "Smell"
         },
         {
             "id": 5,
-            "category": "taste"
+            "category": "Taste"
         }   
     ]
 }

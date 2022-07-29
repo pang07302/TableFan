@@ -11,6 +11,7 @@ public class Panel : MonoBehaviour
 {
     public GameObject panel;
     [SerializeField] private TMP_Text title;
+    [SerializeField] private TMP_Text deviceName;
     [SerializeField] private TMP_Dropdown category;
     [SerializeField] private TMP_InputField propertyType;
     [SerializeField] private TMP_InputField measure;
@@ -33,20 +34,59 @@ public class Panel : MonoBehaviour
     TasteName.Taste tasteEffect;
     static bool fillPanel = false;
     static bool drawGUI = false;
-    static string deviceId;
+    static bool setCategoryOption = false;
     static string operation;
     static string effectId;
     public ToggleSwitch toggle;
     [SerializeField] private string endpoint = "http://localhost:8000";
 
+    void FillEffect(int index)
+    {
+        switch (category.options[index].text)
+        {
+            case "Sight":
+                if (sightEffect == null) { CreateDefaultSight(); }
+                FillSightEffect();
+                print("sight");
+                break;
+            case "Audio":
+                if (audioEffect == null) { CreateDefaultAudio(); }
+                FillAudioEffect();
+                print("audio");
+                break;
+            case "Haptic":
+                if (hapticEffect == null) { CreateDefaultHaptic(); }
+                FillHapticEffect();
+                print("haptic");
+                break;
+            case "Smell":
+                if (smellEffect == null) { CreateDefaultSmell(); }
+                FillSmellEffect();
+                print("smell");
+                break;
+            case "Taste":
+                if (tasteEffect == null) { CreateDefaultTaste(); }
+                print("taste");
+                FillTasteEffect();
+                break;
+        }
+    }
     void Start()
     {
-        CreateEffectClass();
+        CreateDefaultSight();
+        CreateDefaultAudio();
+        CreateDefaultHaptic();
+        CreateDefaultSmell();
+        CreateDefaultTaste();
+        category.onValueChanged.AddListener(FillEffect);
     }
-
-
     void Update()
     {
+        if (setCategoryOption)
+        {
+            SetCategoryOption();
+            setCategoryOption = false;
+        }
         if (toggle.isPlay) // if toggle switch is "Play", stop drawing the retrieved effects GUI box
         {
             drawGUI = false;
@@ -64,14 +104,10 @@ public class Panel : MonoBehaviour
         else
         {
             propertyIdParent.SetActive(false);
-
         }
-
     }
-
-    void FillPanel()
+    void SetCategoryOption()
     {
-        title.text = operation = "Manage";
         List<string> list = new List<string>(categoryOption.Split(','));
         category.options.Clear();
         foreach (string option in list)
@@ -81,32 +117,38 @@ public class Panel : MonoBehaviour
         categoryIndex = category.options.FindIndex((i) => { return i.text.Equals(categoryName); });
         category.value = categoryIndex;
         category.options[categoryIndex].text = categoryName;
-
+    }
+    void FillPanel()
+    {
+        title.text = operation = "Manage";
+        SetCategoryOption();
         switch (category.options[category.value].text)
         {
             case "Sight":
-                RetrieveSightEffect();
+                FillSightEffect();
+                control.text = sightEffect.control;
                 break;
             case "Audio":
-                RetrieveAudioEffect();
+                FillAudioEffect();
+                control.text = audioEffect.control;
                 break;
             case "Haptic":
-                RetrieveHapticEffect();
+                FillHapticEffect();
+                control.text = hapticEffect.control;
                 break;
             case "Smell":
-                RetrieveSmellEffect();
+                FillSmellEffect();
+                control.text = smellEffect.control;
                 break;
             case "Taste":
-                RetrieveTasteEffect();
+                FillTasteEffect();
+                control.text = tasteEffect.control;
                 break;
-
         }
         panel.SetActive(true);
     }
-
     void OnGUI()
     {
-
         if (drawGUI)
         {
             for (int i = 0; i < idArray.Length; i++)
@@ -114,155 +156,130 @@ public class Panel : MonoBehaviour
                 GUIStyle customButton = new GUIStyle("button");
                 customButton.fontSize = 12;
                 if (idArray[i].Length > 2)
-                    if (GUI.Button(new Rect(100, 35 * (i + 1), 300, 30), new GUIContent("effect" + (i + 1)), customButton))
+                    if (GUI.Button(new Rect(100, 35 * (i + 1), 300, 30), new GUIContent(idArray[i].Split('_')[1] +
+                     "effect" + (i + 1)), customButton))
                     {
                         effectId = idArray[i].Substring(1, idArray[i].Length - 2);
                         GetEffect($"{endpoint}/getDeviceEffect/", idArray[i].Substring(1, idArray[i].Length - 2));
                         drawGUI = false;
-
                     }
             }
         }
     }
-
-
     public void submit()
     {
         string submitedEffect = "";
         switch (category.options[category.value].text)
         {
             case "Sight":
-                CreateEffectClass();
                 SubmitSightEffect();
                 submitedEffect = JsonUtility.ToJson(sightEffect);
                 break;
             case "Audio":
-                CreateEffectClass();
                 SubmitAudioEffect();
                 submitedEffect = JsonUtility.ToJson(audioEffect);
                 break;
             case "Haptic":
-                CreateEffectClass();
                 SubmitHapticEffect();
                 submitedEffect = JsonUtility.ToJson(hapticEffect);
                 break;
             case "Smell":
-                CreateEffectClass();
                 SubmitSmellEffect();
                 submitedEffect = JsonUtility.ToJson(smellEffect);
                 break;
             case "Taste":
-                CreateEffectClass();
                 SubmitTasteEffect();
                 submitedEffect = JsonUtility.ToJson(tasteEffect);
                 break;
         }
-
-        string id = operation == "Create" ? deviceId : effectId;
-        SubmitEffect($"{endpoint}/{operation}Effect/" + id, ToByteArray(submitedEffect));
+        string id = operation == "Create" ? deviceName.text : effectId;
+        SendSubmitEffect($"{endpoint}/{operation}Effect/" + id, ToByteArray(submitedEffect));
         panel.SetActive(false);
     }
-
     public byte[] ToByteArray(string json)
     {
         return new System.Text.UTF8Encoding().GetBytes(json);
     }
-
-    void CreateEffectClass()
+    void CreateDefaultSight()
     {
         string defaultJson = System.IO.File.ReadAllText("Assets/Json/Sight_effect.json");
         sightEffect = JsonUtility.FromJson<SightName.Sight>(defaultJson);
-        defaultJson = System.IO.File.ReadAllText("Assets/Json/Audio_effect.json");
-        audioEffect = JsonUtility.FromJson<AudioName.Audio>(defaultJson);
-        defaultJson = System.IO.File.ReadAllText("Assets/Json/Haptic_effect.json");
-        hapticEffect = JsonUtility.FromJson<HapticName.Haptic>(defaultJson);
-        defaultJson = System.IO.File.ReadAllText("Assets/Json/Smell_effect.json");
-        smellEffect = JsonUtility.FromJson<SmellName.Smell>(defaultJson);
-        defaultJson = System.IO.File.ReadAllText("Assets/Json/Taste_effect.json");
-        tasteEffect = JsonUtility.FromJson<TasteName.Taste>(defaultJson);
+        sightEffect.control = control.text;
+        sightEffect.deviceId = deviceName.text;
+
     }
-
-
-
-    void CreateDefaultSight(string controlName)
-    {
-        string defaultJson = System.IO.File.ReadAllText("Assets/Json/Sight_effect.json");
-        sightEffect = JsonUtility.FromJson<SightName.Sight>(defaultJson);
-        sightEffect.control = controlName;
-        RetrieveSightEffect();
-    }
-    void CreateDefaultAudio(string controlName)
+    void CreateDefaultAudio()
     {
         string defaultJson = System.IO.File.ReadAllText("Assets/Json/Audio_effect.json");
         audioEffect = JsonUtility.FromJson<AudioName.Audio>(defaultJson);
-        audioEffect.control = controlName;
-        RetrieveAudioEffect();
-    }
+        audioEffect.control = control.text;
+        audioEffect.deviceId = deviceName.text;
 
-    void CreateDefaultHaptic(string controlName)
+    }
+    void CreateDefaultHaptic()
     {
         string defaultJson = System.IO.File.ReadAllText("Assets/Json/Haptic_effect.json");
         hapticEffect = JsonUtility.FromJson<HapticName.Haptic>(defaultJson);
-        hapticEffect.control = controlName;
-        DumpToConsole(hapticEffect);
-        RetrieveHapticEffect();
+        hapticEffect.control = control.text;
+        hapticEffect.deviceId = deviceName.text;
     }
-
-    void CreateDefaultSmell(string controlName)
+    void CreateDefaultSmell()
     {
         string defaultJson = System.IO.File.ReadAllText("Assets/Json/Smell_effect.json");
         smellEffect = JsonUtility.FromJson<SmellName.Smell>(defaultJson);
-        smellEffect.control = controlName;
-        RetrieveSmellEffect();
+        smellEffect.control = control.text;
+        smellEffect.deviceId = deviceName.text;
+
     }
-    void CreateDefaultTaste(string controlName)
+    void CreateDefaultTaste()
     {
         string defaultJson = System.IO.File.ReadAllText("Assets/Json/Taste_effect.json");
         tasteEffect = JsonUtility.FromJson<TasteName.Taste>(defaultJson);
-        tasteEffect.control = controlName;
-        RetrieveTasteEffect();
+        tasteEffect.control = control.text;
+        tasteEffect.deviceId = deviceName.text;
     }
-
-    public void CreateDefaultEffect(string type, string id, string controlName)
+    public void CreateDefaultEffect(string type, string device, string controlName)
     {
-        print(controlName);
-        deviceId = id;
+        control.text = controlName;
+        deviceName.text = device;
         categoryName = type;
+        categoryOption = type;
+        setCategoryOption = true;
         categoryIndex = category.options.FindIndex((i) => { return i.text.Equals(categoryName); });
         category.value = categoryIndex;
         category.options[categoryIndex].text = categoryName;
-
         switch (categoryName)
         {
             case "Sight":
-                CreateDefaultSight(controlName);
+                CreateDefaultSight();
+                FillSightEffect();
                 break;
             case "Audio":
-                CreateDefaultAudio(controlName);
+                CreateDefaultAudio();
+                FillAudioEffect();
                 break;
             case "Haptic":
-                CreateDefaultHaptic(controlName);
+                CreateDefaultHaptic();
+                FillHapticEffect();
                 break;
             case "Smell":
-                CreateDefaultSmell(controlName);
+                CreateDefaultSmell();
+                FillSmellEffect();
                 break;
             case "Taste":
-                CreateDefaultTaste(controlName);
+                CreateDefaultTaste();
+                FillTasteEffect();
                 break;
         }
         panel.SetActive(true);
         title.text = operation = "Create";
     }
-
-
     public async void GetEffectId(string address, string device)
     {
-        deviceId = device;
+        deviceName.text = device;
         UnityWebRequest request = UnityWebRequest.Get(address + device);
         var operation = request.SendWebRequest();
         while (!operation.isDone) await Task.Yield();
-
-
         string resText = request.downloadHandler.text.Substring(1, request.downloadHandler.text.Length - 3);
         if (request.responseCode == 200)
         {
@@ -273,30 +290,38 @@ public class Panel : MonoBehaviour
             drawGUI = true;
         }
     }
-
     public async void GetEffect(string address, string req)
     {
-        print(req);
         categoryName = req.Split('_')[1];
         UnityWebRequest request = UnityWebRequest.Get(address + req);
         var operation = request.SendWebRequest();
         while (!operation.isDone) await Task.Yield();
-
         string json = request.downloadHandler.text;
-        hapticEffect = JsonUtility.FromJson<HapticName.Haptic>(json);
-        audioEffect = JsonUtility.FromJson<AudioName.Audio>(json);
-        sightEffect = JsonUtility.FromJson<SightName.Sight>(json);
-        smellEffect = JsonUtility.FromJson<SmellName.Smell>(json);
-        tasteEffect = JsonUtility.FromJson<TasteName.Taste>(json);
+        switch (categoryName)
+        {
+            case "Sight":
+                sightEffect = JsonUtility.FromJson<SightName.Sight>(json);
+                break;
+            case "Audio":
+                audioEffect = JsonUtility.FromJson<AudioName.Audio>(json);
+                break;
+            case "Haptic":
+                hapticEffect = JsonUtility.FromJson<HapticName.Haptic>(json);
+                break;
+            case "Smell":
+                smellEffect = JsonUtility.FromJson<SmellName.Smell>(json);
+                break;
+            case "Taste":
+                tasteEffect = JsonUtility.FromJson<TasteName.Taste>(json);
+                break;
+        }
         fillPanel = true;
     }
-
-    public async void SubmitEffect(string address, byte[] effect)
+    public async void SendSubmitEffect(string address, byte[] effect)
     {
         UnityWebRequest request = UnityWebRequest.Get(address);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(effect);
         request.SetRequestHeader("content-Type", "application/json");
-
         var operation = request.SendWebRequest();
         while (!operation.isDone) await Task.Yield();
         if (request.result != UnityWebRequest.Result.Success)
@@ -308,19 +333,8 @@ public class Panel : MonoBehaviour
             Debug.Log(request.downloadHandler.text);
         }
     }
-
-
-
-
-    public static void DumpToConsole(object obj)
-    {
-        var output = JsonUtility.ToJson(obj, true);
-        Debug.Log(output);
-    }
-
-    // Retrieve Effect 
-
-    void RetrieveSightEffect()
+    // Fill Effect 
+    void FillSightEffect()
     {
         propertyType.text = sightEffect.description.properties.type;
         measure.text = sightEffect.description.properties.measure;
@@ -329,10 +343,8 @@ public class Panel : MonoBehaviour
         propertyId.text = sightEffect.description.properties.id;
         patternType.text = sightEffect.description.pattern.type;
         length.text = "" + sightEffect.description.pattern.LengthMs;
-        control.text = sightEffect.control;
-
     }
-    void RetrieveAudioEffect()
+    void FillAudioEffect()
     {
         propertyType.text = audioEffect.description.properties.type;
         measure.text = audioEffect.description.properties.measure;
@@ -340,9 +352,9 @@ public class Panel : MonoBehaviour
         quantity.text = "" + audioEffect.description.properties.quantity;
         patternType.text = audioEffect.description.pattern.type;
         length.text = "" + audioEffect.description.pattern.LengthMs;
-        control.text = audioEffect.control;
+
     }
-    void RetrieveHapticEffect()
+    void FillHapticEffect()
     {
         propertyType.text = hapticEffect.description.properties.type;
         measure.text = hapticEffect.description.properties.measure;
@@ -350,10 +362,8 @@ public class Panel : MonoBehaviour
         quantity.text = "" + hapticEffect.description.properties.quantity;
         patternType.text = hapticEffect.description.pattern.type;
         length.text = "" + hapticEffect.description.pattern.LengthMs;
-        print(hapticEffect.control);
-        control.text = hapticEffect.control;
     }
-    void RetrieveSmellEffect()
+    void FillSmellEffect()
     {
         propertyType.text = smellEffect.description.properties.type;
         measure.text = smellEffect.description.properties.measure;
@@ -361,9 +371,9 @@ public class Panel : MonoBehaviour
         quantity.text = "" + smellEffect.description.properties.quantity;
         patternType.text = smellEffect.description.pattern.type;
         length.text = "" + smellEffect.description.pattern.LengthMs;
-        control.text = smellEffect.control;
+
     }
-    void RetrieveTasteEffect()
+    void FillTasteEffect()
     {
         propertyType.text = tasteEffect.description.properties.type;
         measure.text = tasteEffect.description.properties.measure;
@@ -371,9 +381,8 @@ public class Panel : MonoBehaviour
         quantity.text = "" + tasteEffect.description.properties.quantity;
         patternType.text = tasteEffect.description.pattern.type;
         length.text = "" + tasteEffect.description.pattern.LengthMs;
-        control.text = tasteEffect.control;
-    }
 
+    }
     //Submit Effect
     public void SubmitSightEffect()
     {
@@ -384,7 +393,7 @@ public class Panel : MonoBehaviour
         sightEffect.description.properties.id = propertyId.text;
         sightEffect.description.pattern.type = patternType.text;
         int.TryParse(length.text, out int l); sightEffect.description.pattern.LengthMs = l;
-        sightEffect.deviceId = deviceId;
+        sightEffect.deviceId = deviceName.text;
         sightEffect.control = control.text;
     }
     public void SubmitAudioEffect()
@@ -395,18 +404,19 @@ public class Panel : MonoBehaviour
         int.TryParse(quantity.text, out int q); audioEffect.description.properties.quantity = q;
         audioEffect.description.pattern.type = patternType.text;
         int.TryParse(length.text, out int l); audioEffect.description.pattern.LengthMs = l;
-        audioEffect.deviceId = deviceId;
+        audioEffect.deviceId = deviceName.text;
         audioEffect.control = control.text;
     }
     public void SubmitHapticEffect()
     {
+        print(hapticEffect == null);
         hapticEffect.description.properties.type = propertyType.text;
         hapticEffect.description.properties.measure = measure.text;
         hapticEffect.description.properties.unit = unit.text;
         int.TryParse(quantity.text, out int q); hapticEffect.description.properties.quantity = q;
         hapticEffect.description.pattern.type = patternType.text;
         int.TryParse(length.text, out int l); hapticEffect.description.pattern.LengthMs = l;
-        hapticEffect.deviceId = deviceId;
+        hapticEffect.deviceId = deviceName.text;
         hapticEffect.control = control.text;
     }
     public void SubmitSmellEffect()
@@ -417,8 +427,8 @@ public class Panel : MonoBehaviour
         int.TryParse(quantity.text, out int q); smellEffect.description.properties.quantity = q;
         smellEffect.description.pattern.type = patternType.text;
         int.TryParse(length.text, out int l); smellEffect.description.pattern.LengthMs = l;
+        smellEffect.deviceId = deviceName.text;
         smellEffect.control = control.text;
-        smellEffect.deviceId = deviceId;
     }
     public void SubmitTasteEffect()
     {
@@ -428,10 +438,14 @@ public class Panel : MonoBehaviour
         int.TryParse(quantity.text, out int q); tasteEffect.description.properties.quantity = q;
         tasteEffect.description.pattern.type = patternType.text;
         int.TryParse(length.text, out int l); tasteEffect.description.pattern.LengthMs = l;
-        tasteEffect.deviceId = deviceId;
+        tasteEffect.deviceId = deviceName.text;
         tasteEffect.control = control.text;
     }
-
+    public static void DumpToConsole(object obj)
+    {
+        var output = JsonUtility.ToJson(obj, true);
+        print(output);
+    }
 
 }
 
