@@ -1,6 +1,4 @@
 using System;
-
-
 namespace TasteName
 {
     [Serializable]
@@ -9,7 +7,6 @@ namespace TasteName
         public Properties properties;
         public Pattern pattern;
     }
-
     [Serializable]
     public class Pattern
     {
@@ -24,7 +21,6 @@ namespace TasteName
         public string unit;
         public int quantity;
     }
-
     [Serializable]
     public class Taste
     {

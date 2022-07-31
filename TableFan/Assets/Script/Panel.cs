@@ -38,7 +38,7 @@ public class Panel : MonoBehaviour
     static string operation;
     static string effectId;
     public ToggleSwitch toggle;
-    [SerializeField] private string endpoint = "http://localhost:8000";
+    [SerializeField] private string endpoint = "http://192.168.1.14:8000";
 
     void FillEffect(int index)
     {

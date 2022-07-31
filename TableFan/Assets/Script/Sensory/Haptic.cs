@@ -1,6 +1,4 @@
 using System;
-
-
 namespace HapticName
 {
     [Serializable]
@@ -9,14 +7,12 @@ namespace HapticName
         public Properties properties;
         public Pattern pattern;
     }
-
     [Serializable]
     public class Pattern
     {
         public string type;
         public int LengthMs;
     }
-
     [Serializable]
     public class Properties
     {
@@ -25,7 +21,6 @@ namespace HapticName
         public string unit;
         public int quantity;
     }
-
     [Serializable]
     public class Haptic
     {

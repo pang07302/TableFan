@@ -763,7 +763,7 @@ MonoBehaviour:
   control: {fileID: 218791973}
   propertyIdParent: {fileID: 937791789}
   toggle: {fileID: 1317412047}
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!1 &42252370
 GameObject:
   m_ObjectHideFlags: 0
@@ -10844,7 +10844,7 @@ MonoBehaviour:
   control: {fileID: 218791973}
   propertyIdParent: {fileID: 937791789}
   toggle: {fileID: 1317412047}
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!1 &888427408
 GameObject:
   m_ObjectHideFlags: 0
@@ -12060,7 +12060,7 @@ MonoBehaviour:
   _responseText: 
   _beforeRequestTime: 0
   _afterResponseTime: 0
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12073,7 +12073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900b57c0fd1a04e2fb97a653fe4557f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
   service: {fileID: 963194230}
 --- !u!1 &977985427
 GameObject:
@@ -18719,7 +18719,7 @@ MonoBehaviour:
   control: {fileID: 218791973}
   propertyIdParent: {fileID: 937791789}
   toggle: {fileID: 1317412047}
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!1 &1457737927
 GameObject:
   m_ObjectHideFlags: 0
@@ -23463,7 +23463,7 @@ MonoBehaviour:
   control: {fileID: 218791973}
   propertyIdParent: {fileID: 937791789}
   toggle: {fileID: 1317412047}
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!114 &1776478650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28341,7 +28341,7 @@ MonoBehaviour:
   control: {fileID: 218791973}
   propertyIdParent: {fileID: 937791789}
   toggle: {fileID: 1317412047}
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!4 &663727659693306359
 Transform:
   m_ObjectHideFlags: 0
@@ -28535,7 +28535,7 @@ MonoBehaviour:
   control: {fileID: 218791973}
   propertyIdParent: {fileID: 937791789}
   toggle: {fileID: 1317412047}
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!64 &1896045480067828894
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -28928,7 +28928,7 @@ MonoBehaviour:
   control: {fileID: 218791973}
   propertyIdParent: {fileID: 937791789}
   toggle: {fileID: 1317412047}
-  endpoint: http://localhost:8000
+  endpoint: http://192.168.1.14:8000
 --- !u!64 &6306761741640650006
 MeshCollider:
   m_ObjectHideFlags: 0

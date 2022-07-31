@@ -1,6 +1,4 @@
 using System;
-using Newtonsoft.Json;
-
 namespace SightName
 {
     [Serializable]
@@ -9,14 +7,12 @@ namespace SightName
         public Properties properties;
         public Pattern pattern;
     }
-
     [Serializable]
     public class Pattern
     {
         public string type;
         public int LengthMs;
     }
-
     [Serializable]
     public class Properties
     {
@@ -26,7 +22,6 @@ namespace SightName
         public string unit;
         public int quantity;
     }
-
     [Serializable]
     public class Sight
     {

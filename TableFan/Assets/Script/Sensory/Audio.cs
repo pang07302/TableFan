@@ -1,6 +1,5 @@
 
 using System;
-
 namespace AudioName
 {
     [Serializable]
@@ -9,14 +8,12 @@ namespace AudioName
         public Properties properties;
         public Pattern pattern;
     }
-
     [Serializable]
     public class Pattern
     {
         public string type;
         public int LengthMs;
     }
-
     [Serializable]
     public class Properties
     {
@@ -25,7 +22,6 @@ namespace AudioName
         public string unit;
         public int quantity;
     }
-
     [Serializable]
     public class Audio
     {

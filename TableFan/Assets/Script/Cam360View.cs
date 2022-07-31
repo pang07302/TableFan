@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Cam360View : MonoBehaviour
 {
     public Transform target;
@@ -16,8 +15,6 @@ public class Cam360View : MonoBehaviour
     float speed = 5.0f;
     public float x = 0.0f;
     public float y = 0.0f;
-
-
     void Start()
     {
         Vector3 angles = transform.eulerAngles;
@@ -40,7 +37,6 @@ public class Cam360View : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(y, x, 0.0f);
             Vector3 disVector = new Vector3(0.0f, 0.0f, -distance);
             Vector3 position = rotation * disVector + target.position;
-
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * speed);
             transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * speed);
         }
@@ -51,7 +47,6 @@ public class Cam360View : MonoBehaviour
             angle += 360;
         if (angle > 360)
             angle -= 360;
-
         return angle;
     }
 }

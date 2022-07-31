@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class PanelClose : MonoBehaviour
 {
     public GameObject Panel;
@@ -9,9 +7,7 @@ public class PanelClose : MonoBehaviour
     {
         if (Panel != null)
         {
-
             Panel.SetActive(false);
         }
     }
-
 }

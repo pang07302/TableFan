@@ -1,6 +1,4 @@
 using System;
-
-
 namespace SmellName
 {
     [Serializable]
@@ -9,14 +7,12 @@ namespace SmellName
         public Properties properties;
         public Pattern pattern;
     }
-
     [Serializable]
     public class Pattern
     {
         public string type;
         public int LengthMs;
     }
-
     [Serializable]
     public class Properties
     {
@@ -25,7 +21,6 @@ namespace SmellName
         public string unit;
         public int quantity;
     }
-
     [Serializable]
     public class Smell
     {

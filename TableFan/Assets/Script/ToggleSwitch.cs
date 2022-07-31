@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class ToggleSwitch : MonoBehaviour, IPointerDownHandler
 {
-
     [SerializeField] private bool _isPlay = false;
     public bool isPlay { get { return _isPlay; } }
     [SerializeField] private RectTransform toggleIndicator;
@@ -17,8 +16,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerDownHandler
     [SerializeField] private float tweenTime = 0.25f;
     public delegate void ValueChanged(bool value);
     public event ValueChanged valueChanged;
-
-
     void Start()
     {
         playPos = toggleIndicator.anchoredPosition.x;

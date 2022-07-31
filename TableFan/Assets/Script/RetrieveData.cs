@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-using DG.Tweening;
-using UnityEngine.Networking;
-using System.IO;
-
 public class RetrieveData : MonoBehaviour
 {
     public Panel panel;

@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 using System.IO;
 using Task = System.Threading.Tasks;
 using Debug = UnityEngine.Debug;
-
 public class FanButton : MonoBehaviour
 {
     public List<FanButton> fanbtns = new List<FanButton>();
@@ -22,6 +21,10 @@ public class FanButton : MonoBehaviour
     public Service service;
     bool getServiceResponseData = false;
     static long clickTime;
+    void Start()
+    {
+        ReadTxt();
+    }
     private void OnMouseDown()
     {
         if (toggle.isPlay) // if toggle switch is play, click button will play the fan
@@ -35,12 +38,10 @@ public class FanButton : MonoBehaviour
             panel.CreateDefaultEffect("Haptic", device, this.name);
         }
     }
-
     private void OnMouseUp()
     {
         if (this.name == "btn_off") { Bounce(); }
     }
-
     void Update()
     {
         if (toggle.isPlay)
@@ -50,7 +51,7 @@ public class FanButton : MonoBehaviour
 
         if (service.responseCode == 200 && getServiceResponseData)
         {
-            MeasureTime(service.responseText, service.beforeRequestTime, service.afterResponseTime);
+            MeasureTime(service.responseText, service.beforeRequestTime);
             service.setResponseCode(0);
             getServiceResponseData = !getServiceResponseData;
         }
@@ -60,7 +61,7 @@ public class FanButton : MonoBehaviour
         BounceAll();
         transform.DOLocalMoveY(-0.3f, 0.1f);
         blade.SetSpeed(speed);
-        string fan = JsonUtility.ToJson(new Devices(1, this.name));
+        string fan = JsonUtility.ToJson(new Devices(8, this.name));
         if (this.name == "btn_off")
         {
             BounceAll();
@@ -79,7 +80,6 @@ public class FanButton : MonoBehaviour
         transform.DOLocalMoveY(0f, 0.1f);
         if (speed == 0.0) { audiosource.PlayOneShot(bounceUp); }
     }
-
     public void BounceAll()
     {
         foreach (var item in fanbtns)
@@ -87,20 +87,16 @@ public class FanButton : MonoBehaviour
             item.Bounce();
         }
     }
-
-    public void MeasureTime(string responseText, long beforeRequestTime, long afterResponseTime)
+    public void MeasureTime(string responseText, long beforeRequestTime)
     {
         double.TryParse(responseText.Split(',', ':')[3], out double serverProcessingTime);
         long.TryParse(responseText.Split(',', ':')[5], out long afterRequestTime);
-        long.TryParse(responseText.Split(',', ':')[7], out long beforeResponseTime);
         double clickToSendTime = (double)(beforeRequestTime - clickTime);
         double requestTime = (double)(afterRequestTime - beforeRequestTime);
         double delayTime = clickToSendTime + serverProcessingTime + requestTime;
-        double responseTime = (double)(afterResponseTime - beforeResponseTime);
-        WriteTxt(clickToSendTime / 1e9, serverProcessingTime / 1e9, requestTime / 1e9, delayTime / 1e9, responseTime / 1e9);
+        WriteTxt(clickToSendTime / 1e9, serverProcessingTime / 1e9, requestTime / 1e9, delayTime / 1e9);
     }
-
-    void WriteTxt(double clickToSendTime, double serverProcessingTime, double requestTime, double delayTime, double responseTime)
+    void WriteTxt(double clickToSendTime, double serverProcessingTime, double requestTime, double delayTime)
     {
         string path = "Assets/DelayTime.txt";
         StreamWriter sw;
@@ -113,7 +109,7 @@ public class FanButton : MonoBehaviour
         {
             sw = fi.AppendText();
         }
-        sw.WriteLine("Click: " + clickToSendTime + "| Request: " + requestTime + "| bash code: " + serverProcessingTime + "| The delay time: " + delayTime + "| The response time: " + responseTime);
+        sw.WriteLine("Click: " + clickToSendTime + "| Request: " + requestTime + "| bash code: " + serverProcessingTime + "| The delay time: " + delayTime);
         sw.Close();
         sw.Dispose();
     }
@@ -132,12 +128,11 @@ public class FanButton : MonoBehaviour
             double.TryParse(x.Split(':', '|')[7], out double xx);
             total += xx;
         }
-        Debug.Log("total/Count: " + total / delayTimes.Count);
+        Debug.Log("Average of deployment: " + total / delayTimes.Count);
     }
     long UnixNanoseconds()
     {
         System.DateTime unixStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         return (System.DateTime.UtcNow - unixStart).Ticks * 100;
     }
-
 }

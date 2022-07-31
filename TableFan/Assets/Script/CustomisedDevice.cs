@@ -4,8 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-
-
 public class CustomisedDevice : MonoBehaviour
 {
     [SerializeField] private TMP_InputField TMPname;

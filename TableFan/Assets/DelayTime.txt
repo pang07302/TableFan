@@ -1,7 +1,52 @@
-Click: 0.007987| Request: 0.026035717| bash code: 0.075440429| The delay time: 0.109463146| The response time: -0.022048383
-Click: 0.000126| Request: 0.026137371| bash code: 0.052102318| The delay time: 0.078365689| The response time: -0.003898545
-Click: 8.5E-05| Request: 0.026402436| bash code: 0.048955476| The delay time: 0.075442912| The response time: -0.000358768
-Click: 7.6E-05| Request: 0.026104462| bash code: 0.044286651| The delay time: 0.070467113| The response time: -0.01972302
-Click: 0.000175| Request: 0.027232807| bash code: 0.044538188| The delay time: 0.071945995| The response time: -0.005299245
-Click: 0.000102| Request: 0.027497054| bash code: 0.045679508| The delay time: 0.073278562| The response time: -0.012509742
-Click: 0.000103| Request: 0.026191083| bash code: 0.050261001| The delay time: 0.076555084| The response time: -0.012530793
+Click: 0.006392| Request: 0.271813998| bash code: 0.136343588| The delay time: 0.414549586
+Click: 9.8E-05| Request: 0.170011488| bash code: 0.072270278| The delay time: 0.242379766
+Click: 0.000181| Request: 0.094597829| bash code: 0.077116094| The delay time: 0.171894923
+Click: 0.000144| Request: 0.093335279| bash code: 0.141912707| The delay time: 0.235391986
+Click: 0.000142| Request: 0.093222246| bash code: 0.147716646| The delay time: 0.241080892
+Click: 7.5E-05| Request: 0.094533804| bash code: 0.086676799| The delay time: 0.181285603
+Click: 0.000128| Request: 0.173786044| bash code: 0.073251837| The delay time: 0.247165881
+Click: 8.6E-05| Request: 0.487088161| bash code: 0.078086106| The delay time: 0.565260267
+Click: 0.003138| Request: 0.117111782| bash code: 0.08358338| The delay time: 0.203833162
+Click: 0.000103| Request: 0.206369506| bash code: 0.111385616| The delay time: 0.317858122
+Click: 8.5E-05| Request: 0.182514436| bash code: 0.139488604| The delay time: 0.32208804
+Click: 0.000151| Request: 0.095491299| bash code: 0.075415279| The delay time: 0.171057578
+Click: 0.000186| Request: 0.178492967| bash code: 0.104839195| The delay time: 0.283518162
+Click: 8.2E-05| Request: 0.096016929| bash code: 0.077161263| The delay time: 0.173260192
+Click: 8.3E-05| Request: 0.096276224| bash code: 0.071684951| The delay time: 0.168044175
+Click: 8.6E-05| Request: 0.094326518| bash code: 0.072780682| The delay time: 0.1671932
+Click: 0.000159| Request: 0.102575962| bash code: 0.070451251| The delay time: 0.173186213
+Click: 8.6E-05| Request: 0.108459404| bash code: 0.084640041| The delay time: 0.193185445
+Click: 0.000144| Request: 0.272947748| bash code: 0.071878943| The delay time: 0.344970691
+Click: 0.000153| Request: 0.095392661| bash code: 0.078209556| The delay time: 0.173755217
+Click: 7.8E-05| Request: 0.106149873| bash code: 0.071348534| The delay time: 0.177576407
+Click: 8.7E-05| Request: 0.244341292| bash code: 0.062462354| The delay time: 0.306890646
+Click: 8.7E-05| Request: 0.098972336| bash code: 0.066936951| The delay time: 0.165996287
+Click: 0.000129| Request: 0.095581064| bash code: 0.073177022| The delay time: 0.168887086
+Click: 8.4E-05| Request: 0.321594424| bash code: 0.073712323| The delay time: 0.395390747
+Click: 8.3E-05| Request: 0.098110617| bash code: 0.069948042| The delay time: 0.168141659
+Click: 9.1E-05| Request: 0.112125581| bash code: 0.076048335| The delay time: 0.188264916
+Click: 0.000126| Request: 0.156201593| bash code: 0.074157313| The delay time: 0.230484906
+Click: 7.8E-05| Request: 0.098599895| bash code: 0.107805746| The delay time: 0.206483641
+Click: 0.000107| Request: 0.098195399| bash code: 0.068431906| The delay time: 0.166734305
+Click: 0.000131| Request: 0.117626641| bash code: 0.069129322| The delay time: 0.186886963
+Click: 0.000159| Request: 0.163873431| bash code: 0.07326084| The delay time: 0.237293271
+Click: 0.000185| Request: 0.096260756| bash code: 0.073418685| The delay time: 0.169864441
+Click: 7.6E-05| Request: 0.096964793| bash code: 0.071648816| The delay time: 0.168689609
+Click: 7.1E-05| Request: 0.095944662| bash code: 0.067676698| The delay time: 0.16369236
+Click: 0.00013| Request: 0.097352774| bash code: 0.06767782| The delay time: 0.165160594
+Click: 0.000114| Request: 0.124384302| bash code: 0.071811768| The delay time: 0.19631007
+Click: 6.6E-05| Request: 0.174967375| bash code: 0.06961278| The delay time: 0.244646155
+Click: 0.00012| Request: 0.155908332| bash code: 0.065685577| The delay time: 0.221713909
+Click: 9.4E-05| Request: 0.096817072| bash code: 0.067102268| The delay time: 0.16401334
+Click: 0.000106| Request: 0.100038559| bash code: 0.069495805| The delay time: 0.169640364
+Click: 8.9E-05| Request: 0.183186131| bash code: 0.071752643| The delay time: 0.255027774
+Click: 8.1E-05| Request: 0.099335743| bash code: 0.071481164| The delay time: 0.170897907
+Click: 9.7E-05| Request: 0.096901847| bash code: 0.069636076| The delay time: 0.166634923
+Click: 0.000116| Request: 0.09712272| bash code: 0.074446453| The delay time: 0.171685173
+Click: 0.000103| Request: 0.142076423| bash code: 0.080202933| The delay time: 0.222382356
+Click: 0.000154| Request: 0.099090165| bash code: 0.066652989| The delay time: 0.165897154
+Click: 7.6E-05| Request: 0.190076704| bash code: 0.066917986| The delay time: 0.25707069
+Click: 0.000106| Request: 0.09690574| bash code: 0.075344635| The delay time: 0.172356375
+Click: 0.00695| Request: 0.158007522| bash code: 0.068127345| The delay time: 0.233084867
+Click: 0.022868| Request: 0.294420051| bash code: 0.088744611| The delay time: 0.406032662
+Click: 8E-05| Request: 0.137399729| bash code: 0.104452241| The delay time: 0.24193197
