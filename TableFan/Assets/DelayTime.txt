@@ -50,3 +50,9 @@ Click: 0.000106| Request: 0.09690574| bash code: 0.075344635| The delay time: 0.
 Click: 0.00695| Request: 0.158007522| bash code: 0.068127345| The delay time: 0.233084867
 Click: 0.022868| Request: 0.294420051| bash code: 0.088744611| The delay time: 0.406032662
 Click: 8E-05| Request: 0.137399729| bash code: 0.104452241| The delay time: 0.24193197
+Click: 0.011075| Request: 0.11162728| bash code: 0.076999184| The delay time: 0.199701464
+Click: 0.003778| Request: 0.230699282| bash code: 0.075229693| The delay time: 0.309706975
+Click: 0.006376| Request: 0.265677372| bash code: 0.090812674| The delay time: 0.362866046
+Click: 0.000123| Request: 0.344886512| bash code: 0.075731629| The delay time: 0.420741141
+Click: 0.007408| Request: 0.50432998| bash code: 0.078921616| The delay time: 0.590659596
+Click: 0.000147| Request: 0.444770031| bash code: 0.071948221| The delay time: 0.516865252
